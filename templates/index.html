@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <h1>Welcome!</h1>
+  <p>This is the home page.</p>
+  {% if not current_user.is_authenticated %}
+  <p>Please <a href="{{ url_for('login') }}">Log In</a> or <a href="{{ url_for('signup') }}">Sign Up</a>.</p>
+  {% endif %}
+{% endblock %}
