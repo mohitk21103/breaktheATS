@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css')}}">
+    <style>
+        .upload-preview {
+            display: none;
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            padding: 10px;
+            width: 100%;
+            max-height: 400px;
+            overflow: auto;
+            text-align: center;
+        }
+        .upload-preview iframe {
+            width: 100%;
+            height: 300px;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a4bb5, #8b2b2b);
+            min-height: 100vh;
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="index.html">Home</a>
+            <a href="index.html#aboutSection">About</a>
+            <a href="index.html#servicesSection">Services</a>
+        </div>
+    </nav>
+
+    <div class="upload-page-container">
+        <div class="container">
+            <h1>Upload Your Resume</h1>
+            <p>Please upload your resume and type the job description for analysis.</p>
+
+<form id="uploadForm" action="/analyze" method="post" enctype="multipart/form-data">
+    <div class="upload-area">
+        <label for="resumeUpload" class="upload-label" id="uploadLabel">
+            <span class="upload-icon">&#128206;</span>
+            <span class="upload-text" id="uploadText">Upload Resume (PDF, DOC, DOCX)</span>
+            <input type="file" id="resumeUpload" name="resume" accept=".pdf,.doc,.docx,.txt" required>
+        </label>
+        <div class="upload-preview" id="filePreview"></div> <!-- Resume preview -->
+    </div>
+
+    <!-- New Section: User Experience Level -->
+    <div class="experience-level">
+        <label for="level" class="experience-label">Select Your Experience Level:</label>
+        <select id="level" name="level" required>
+            <option value="" disabled selected>Select an option</option>
+            <option value="Fresher">Fresher</option>
+            <option value="Experienced">Experienced</option>
+        </select>
+    </div>
+
+    <div class="job-description-area">
+        <label for="jobDescriptionText" class="job-description-label">
+            <span class="upload-icon">&#128206;</span>
+            <span class="upload-text">Type Job Description:</span>
+        </label>
+        <textarea id="jobDescriptionText" name="job_description" rows="5" placeholder="Enter job description here..." required></textarea>
+    </div>
+
+    <button type="submit" id="analyzeButton" disabled>Analyze Resume and Job Description</button>
+</form>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("resumeUpload").addEventListener("change", function() {
+            let file = this.files[0];
+            let uploadLabel = document.getElementById("uploadLabel");
+            let uploadText = document.getElementById("uploadText");
+            let filePreview = document.getElementById("filePreview");
+            let analyzeButton = document.getElementById("analyzeButton");
+
+            if (file) {
+                // Hide upload text
+                uploadText.style.display = "none";
+                filePreview.style.display = "block";
+
+                // Check file type
+                let reader = new FileReader();
+                if (file.type === "application/pdf") {
+                    // Show PDF preview
+                    reader.onload = function(e) {
+                        filePreview.innerHTML = `<iframe src="${e.target.result}"></iframe>`;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // Show file name for .doc, .docx, .txt
+                    filePreview.innerHTML = `<p><strong>Selected File:</strong> ${file.name}</p>`;
+                }
+
+                analyzeButton.disabled = false;
+            } else {
+                uploadText.style.display = "block";
+                filePreview.style.display = "none";
+                analyzeButton.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
