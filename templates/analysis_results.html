@@ -230,18 +230,15 @@
         <h2>Analysis</h2>
         <div id="resume_similarity_score" class="score-container">
         <div class="circle-progress">
-            <span>{{ results.relevance_score }}</span>
+            <span>{{ similarity_score }}</span>
         </div>
-        <p class="score-description">The Relevance Score indicates how well your resume matches the job description.</p>
+        <p class="score-description">The Similarity Score indicates how well your resume matches the job description.</p>
 
-<!--            <div class="overall">OVERALL</div>-->
-<!--            <div class="score-improvement">-->
-<!--                ⬆ 10 POINTS-->
-<!--            </div>-->
+
         </div>
         <ul>
             {% for key in results.keys() %}
-                {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone', 'resume_similarity_score', 'extracted_keywords',  'predicted_category', 'skill_enhancement_courses_videos'] %}
+                {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone', 'extracted_keywords',  'predicted_category', 'skill_enhancement_courses_videos'] %}
                     <li onclick="showSection('{{ key }}')">{{ key.replace('_', ' ').title() }}</li>
                 {% endif %}
             {% endfor %}
@@ -307,7 +304,7 @@
         </div>
 
         {% for key, value in results.items() %}
-            {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone', 'resume_similarity_score', 'extracted_keywords', 'predicted_category', 'skill_enhancement_courses_videos'] %}
+           {% if key not in ['grammar_errors', 'clarity_issues', 'professional_tone', 'extracted_keywords',  'predicted_category', 'skill_enhancement_courses_videos', 'similarity_score'] %}
                 <div id="{{ key }}" class="result-section">
                     <h2>{{ key.replace('_', ' ').title() }}</h2>
 
