@@ -129,29 +129,31 @@ def show_analysis_result():
     level = request.args.get("level")
 
     get_job = JobScraper(predicted_Category, level)
-    recommended_job = get_job.get_all_jobs()
-
-    # print(recommended_job)
+    try:
+        recommended_job = get_job.get_all_jobs()
+    except Exception as e:
+        print(f"Error occurred while fetching jobs: {e}")
+        recommended_job = []  # fallback if job fetching fails
 
     # Storing all results in a dictionary
     results = {
-        "similarity_score": similarity_score,
+        # "similarity_score": similarity_score,
         "suggestions": suggestions,
-        "relevance_score": relevance_score,
+        # "relevance_score": relevance_score,
         "strengths": strengths,
         "weaknesses": weaknesses,
-        "additional_suggestions": additional_suggestions,
+        # "additional_suggestions": additional_suggestions,
         "missing_keywords": missing_keywords,
         "grammar_errors": grammar_errors,
         "clarity_issues": clarity_issues,
-        "professional_tone": professional_tone,
+        # "professional_tone": professional_tone,
         "ats_tips": ats_tips,
         "predicted_category": predicted_Category
     }
     # for key, value in results.items():
     #     print(f"{key}: {value}")
 
-    return render_template("analysis_results.html", results=results, jobs=recommended_job)
+    return render_template("analysis_results.html", results=results, jobs=recommended_job, similarity_score=similarity_score)
 
 
 if __name__ == "__main__":
