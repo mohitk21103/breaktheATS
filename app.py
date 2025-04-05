@@ -13,9 +13,6 @@ app = Flask(__name__)
 secret_key = app.config["SECRET_KEY"]
 mongo_uri = app.config["MONGO_URI"]
 
-app.config["SECRET_KEY"] = secret_key
-app.config["MONGO_URI"] = mongo_uri
-
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
