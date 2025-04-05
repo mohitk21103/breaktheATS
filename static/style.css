@@ -73,19 +73,22 @@ nav .logo img {
     position: relative;
     transform-style: preserve-3d;
     animation: rotate3D 3s linear infinite;
+    padding: 19px;
+    padding-left:23px;
 }
 .logo-background {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotateY(0deg);
-    width: 500px;
-    height: auto;
+    width: 300px;
+    height: 300px;
     opacity: 0.5;
     z-index: 0;
 }
+
 .info-image img:first-child {
-    max-width: 500px;
+    max-width: 280px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1;
@@ -136,7 +139,7 @@ nav .logo img {
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.18);
     text-align: center;
-    width: 90%;
+    width: 65%;
     margin: 20px auto;
 }
 
