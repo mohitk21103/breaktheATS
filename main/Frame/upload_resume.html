@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="index.html">Home</a>
+            <a href="index.html#aboutSection">About</a>
+            <a href="index.html#servicesSection">Services</a>
+        </div>
+    </nav>
+
+    <div class="upload-page-container">
+        <div class="container">
+            <h1>Upload Your Resume</h1>
+            <p>Please upload your resume and type the job description for analysis.</p>
+
+            <div class="upload-area">
+                <label for="resumeUpload" class="upload-label">
+                    <span class="upload-icon">&#128206;</span>
+                    <span class="upload-text">Upload Resume (PDF, DOC, DOCX)</span>
+                    <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" style="display: none;">
+                </label>
+            </div>
+
+            <div class="job-description-area">
+                <label for="jobDescriptionText" class="job-description-label">
+                    <span class="upload-icon">&#128206;</span>
+                    <span class="upload-text">Type Job Description:</span>
+                </label>
+                <textarea id="jobDescriptionText" rows="5" placeholder="Enter job description here..."></textarea>
+            </div>
+
+            <button id="analyzeButton" disabled>Analyze Resume and Job Description</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resumeUpload = document.getElementById('resumeUpload');
+            const jobDescriptionText = document.getElementById('jobDescriptionText');
+            const analyzeButton = document.getElementById('analyzeButton');
+
+            function checkInputs() {
+                if (resumeUpload.files && resumeUpload.files[0] && jobDescriptionText.value.trim() !== "") {
+                    analyzeButton.disabled = false;
+                } else {
+                    analyzeButton.disabled = true;
+                }
+            }
+
+            resumeUpload.addEventListener('change', checkInputs);
+            jobDescriptionText.addEventListener('input', checkInputs); // Use 'input' event
+
+            analyzeButton.addEventListener('click', function() {
+                const isFresher = confirm("Is this resume for a fresher or a professional?");
+                const jobDescription = jobDescriptionText.value;
+
+                const analysisResults = {
+                    strengths: "Good formatting, relevant experience.",
+                    weaknesses: "Needs more specific skills, improve action verbs.",
+                    suggestions: "Tailor resume to each job, quantify achievements.",
+                    isFresher: isFresher,
+                    jobMatch: "70% match with job description.",
+                    jobDescription: jobDescription, // Add the Job description to the results
+                };
+
+                const queryString = `?strengths=${encodeURIComponent(analysisResults.strengths)}&weaknesses=${encodeURIComponent(analysisResults.weaknesses)}&suggestions=${encodeURIComponent(analysisResults.suggestions)}&isFresher=${isFresher}&jobMatch=${encodeURIComponent(analysisResults.jobMatch)}&jobDescription=${encodeURIComponent(analysisResults.jobDescription)}`;
+
+                window.location.href = 'analysis_results.html' + queryString;
+            });
+        });
+    </script>
+</body>
+</html>

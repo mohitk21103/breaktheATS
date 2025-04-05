@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+        </div>
+    </nav>
+
+    <div class="resume-builder-page">
+        <h1>Create Your Stunning Resume</h1>
+        <p class="subtitle">Choose a template and fill in your details to make your perfect resume.</p>
+
+        <div class="template-selector">
+            <h2>Select a Template</h2>
+            <div class="template-options">
+                <div class="template">
+                    <img src="template1.png" alt="Template 1 Preview" class="template-preview">
+                    <button class="use-template" data-template="template1">Elegant</button>
+                </div>
+                <div class="template">
+                    <img src="template2.png" alt="Template 2 Preview" class="template-preview">
+                    <button class="use-template" data-template="template2">Modern</button>
+                </div>
+                <div class="template">
+                    <img src="template3.png" alt="Template 3 Preview" class="template-preview">
+                    <button class="use-template" data-template="template3">Minimalist</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resumeFormArea" class="resume-form-area-hidden">
+            <form id="resumeForm">
+                <div class="form-group">
+                    <label for="name"><i class="bi bi-person"></i> Name:</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="email"><i class="bi bi-envelope"></i> Email:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="phone"><i class="bi bi-telephone"></i> Phone:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="experience"><i class="bi bi-briefcase"></i> Experience:</label>
+                    <textarea id="experience" name="experience" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="education"><i class="bi bi-mortarboard"></i> Education:</label>
+                    <textarea id="education" name="education" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="skills"><i class="bi bi-tools"></i> Skills:</label>
+                    <textarea id="skills" name="skills" rows="4"></textarea>
+                </div>
+                <button type="button" id="generateResume" class="generate-button">Generate Resume</button>
+            </form>
+            <div id="generatedResume" class="generated-resume-hidden">
+                <h3>Your Generated Resume:</h3>
+                <div id="resumeOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="resumeBuilder.js"></script>
+</body>
+</html>
