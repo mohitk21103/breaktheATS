@@ -12,11 +12,14 @@ body {
     padding-top: 60px;
 }
 
+
+
 nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    height: 45px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,11 +38,85 @@ nav a {
     transition: color 0.3s ease;
 }
 
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+}
+
 nav a:hover {
     color: #ddd;
 }
 
+.nav-logo {
+    flex-grow: 1; /* Allow logo to take up remaining space */
+    display: flex;
+    justify-content: center; /* Center the logo horizontally */
+}
 
+nav .logo img {
+    width: 80px; /* Adjust the width as needed */
+    height: 80px; /* Maintain aspect ratio */
+    vertical-align: middle;
+}
+
+/* ... Your existing CSS ... */
+
+.info-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 50vh;
+    position: relative;
+}
+.info-image {
+    position: relative;
+    transform-style: preserve-3d;
+    animation: rotate3D 3s linear infinite;
+}
+.logo-background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateY(0deg);
+    width: 500px;
+    height: auto;
+    opacity: 0.5;
+    z-index: 0;
+}
+.info-image img:first-child {
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+@keyframes rotate3D {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.robota {
+    position: absolute; /* Allows for precise positioning */
+    top: 80px;
+    left: 0;
+    width: 100%; /* Cover the entire width */
+    height: 100%; /* Cover the entire height */
+    pointer-events: none; /* Prevents the Spline viewer from interfering with clicks */
+    z-index: 0; /* Place it behind other content */
+    background: transparent; /* Make the background transparent */
+}
+
+.Font{
+    color: white;
+    text-size-adjust: 22px;
+    text-align: center;
+    padding-top: 0px;
+    margin-top: 0.5cm;
+}
 
 .scanner-builder-container {
     display: grid;
@@ -49,6 +126,20 @@ nav a:hover {
     width: 80%;
     max-width: 1200px;
 }
+
+.container12 {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    text-align: center;
+    width: 90%;
+    margin: 20px auto;
+}
+
 .container {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 10px;
@@ -69,6 +160,8 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+
+
 #uploadResumeButton{
     padding: 12px 30px;
     background: linear-gradient(to right, #6a11cb, #2575fc);
@@ -81,22 +174,19 @@ h1 {
 }
 
 .upload-area {
-    border: 2px dashed black; /* Black dashed border */
+    border: 2px dashed rgba(255, 255, 255, 0.5);
     padding: 40px;
     margin: 20px auto;
     width: 80%;
     position: relative;
     cursor: pointer;
     border-radius: 8px;
-    background-color: white; /* Ensure background remains white */
-    transition: border-color 0.3s ease, transform 0.2s ease;
+    transition: border 0.3s ease;
 }
 
 .upload-area:hover {
-    border-color: rgba(0, 0, 0, 0.7); /* Darker border on hover */
-    transform: scale(1.02); /* Slight zoom effect */
+    border: 2px dashed rgba(255, 255, 255, 0.8);
 }
-
 
 .upload-label {
     display: flex;
