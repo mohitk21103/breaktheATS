@@ -1,0 +1,52 @@
+Education
+Rajiv Gandhi Proudyogiki Vishwavidyalaya Bachelor of Technology in Computer Science & Business Systems CGPA : 8.01 Projects
+Madhya Pradesh, India
+Oct. 2022 – May 2026(expected)
+Blackboard Tool | Live | GitHub React.js, Node.js, Vite, Tailwind, Rough.js
+• Engineered a real-time collaborative whiteboard leveraging React.js, Node.js, and Vite, achieving sub-100ms latency for
+seamless multi-user interaction.
+• Implemented a robust undo/redo architecture, optimizing user workflows and boosting efficiency.
+• Delivered a one-click whiteboard reset feature, streamlining user experience and accelerating task completion by 25%.
+Full Stack Notes App | GitHub MongoDB, Express.js, React.js, Node.js, TailwindCSS
+• Architected a dynamic MERN stack notes application, empowering users with comprehensive CRUD operations for
+personalized note management.
+• Fortified application security through the implementation of secure user authentication and authorization protocols,
+ensuring data integrity and user privacy.
+Define-It | Live | GitHub JavaScript, HTML, CSS, Node.js
+• Pioneered a high-performance word-search platform, slashing search times by 35% through optimized algorithms.
+• Catalyzed language learning through intuitive word lookup, driving a 20% increase in user engagement and retention.
+Arduino-Based Solar Tracker System | Check it out Arduino UNO, Servo Motor, Arduino Code
+• Maximized energy collection efficiency by 15-20% through an intelligent, Arduino-based solar tracking system utilizing
+LDRs and servo motors.
+• Automated solar panel alignment, eliminating manual adjustments and achieving 100% automation.
+• Amplified power output and enhanced project ROI by 10-15% through precision solar tracking.
+Text-to-Image Tool | GitHub Python, Pandas, Numpy, Matplotlib, cv2, diffusers, transformers, GenAI
+• Synthesized high-fidelity images from textual prompts, integrating cutting-edge Hugging Face and Stable Diffusion models.
+• Enabled generative AI powered image creation through text descriptions.
+Multilingual Video Dubbing Tool | GitHub Python, googletrans, streamlit, SpeechRecognition
+• Automated multilingual video dubbing, transcending language barriers and reducing translation time by 50% for 5+ Indian
+languages.
+• Orchestrated real-time dubbing with over 95% accuracy by integrating Google Translate API and SpeechRecognition.
+Technical Skills
+Languages: JavaScript, Python, C/C++, SQL, HTML/CSS
+Frameworks: React, Node.js, Express.js, Flask, Bootstrap,
+Databases: MySQL, MongoDB, SQLite
+Developer Tools: Git, Docker, Vite, Amazon Web Services, Google Cloud Platform, VMWare, VS Code, PyCharm, Google
+Collab, Jupyter Notebook, Trello, PostMan
+Libraries: Pandas, Numpy, Matplotlib, OpenCV, CV2, NLTK, RASA, PyAutoGUI, pyttsx3
+Network & Security : VPC, IAM, Firewalls and Security Groups
+Network Configuration : Cisco Routing and Switching, Cisco Packet Tracer
+Protocols & Services : DNS, DHCP, HTTP/HTTPS, SMTP, SSH, OSPF, RIP, EIGRP, BGP, NAT, PAT, ACL
+IoT : Have worked with Arduino Boards (UNO & NANO), and sensors like ulrasonic, LDR, IR etc.
+Soft Skills : Verbal & Written Communication, Design Thinking, Critical Thinking, Orator, Decision Making
+Extra-Curricular Activities & Achievements
+• Championed Oracle low-code development, securing victory in a competitive contest.
+• Architected cloud solutions through the AWS APAC Solutions Architecture virtual experience program on Forage, acquiring
+practical expertise.
+• Mastered algorithmic problem-solving by conquering 200+ coding challenges on LeetCode.
+• Pioneered innovative solutions as a finalist in the Smart India Hackathon 2023, showcasing national-level proficiency.
+• Conceptualized and presented cutting-edge tech ideas, culminating in a finalist position at the Solve to Evolve Hackathon,
+E-cell IIT Madras.
+• the Validated proficiency in database management and cybersecurity by securing NPTEL Elite Certificate in DBMS and
+Ethical Hacking.
+• Orchestrated and led an Ideation Competition using Design Thinking principles, fostering team creativity and innovation.
