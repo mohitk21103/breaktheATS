@@ -6,10 +6,12 @@ from werkzeug.utils import secure_filename
 
 # Created Modules/Classes
 from AI_Powered_Analysis import AIResumeEvaluator
-from analyzer_module import ResumeAnalyzer
+from analyzer_module import ResumeAnalyzer, nlp
+from testing import suggestion_eval_model
 from text_extractor import FileTextExtractor
 from Resume_categoryPredict import ResumeCategory
 from JobRecommendation import JobScraper
+from suggestion_evaluator import SuggestionEvaluator
 
 app = Flask(__name__)
 
@@ -18,6 +20,8 @@ ai_analysis = AIResumeEvaluator()
 analyzer = ResumeAnalyzer()
 extractText = FileTextExtractor()
 predictCategory = ResumeCategory()
+suggestion_evaluator = SuggestionEvaluator(spacy_nlp_model=nlp, genai_eval_model=suggestion_eval_model)
+
 
 # Configure Upload Folder
 UPLOAD_FOLDER = "uploads"
@@ -36,15 +40,33 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def ai_feedback(job_description, filepath):
-    """ Generates AI feedback for the resume based on the job description """
+def ai_feedback(job_description, filepath, threshold=0.7, max_attempts=3):
+    """ Generates AI feedback for the resume based on the job description,
+        evaluates it, and regenerates if below threshold. """
+
     resume_text = extractText.extract_text(filepath)
     prompt = ai_analysis.generate_prompt(job_description, resume_text)
-    try:
-        response = model.generate_content(prompt)
-        return json.loads(response.text)
-    except Exception:
-        return {"error": "Failed to analyze the resume."}
+
+    for _ in range(max_attempts):
+        try:
+            response = model.generate_content(prompt)
+            response_data = json.loads(response.text)
+
+            # Get suggestions from the response (you can adjust this key as per actual response structure)
+            suggestions = response_data.get("Suggestions", [])
+
+            # Evaluate the suggestions
+            score = suggestion_evaluator.evaluate(suggestions, job_description)
+
+            if score >= threshold:
+                return response_data
+
+        except Exception as e:
+            print(f"Error in AI feedback or evaluation: {e}")
+            continue
+
+    # Return the last response even if it’s below threshold, or handle gracefully
+    return response_data if 'response_data' in locals() else {"error": "Failed to analyze the resume."}
 
 
 # ------------------------------ (Route to Serve Uploaded Files) --------------------------------------------------
