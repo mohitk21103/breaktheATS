@@ -4,7 +4,9 @@ import spacy
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 TOP_N_KEYWORDS = 10
-STRONG_VERBS = ['achieved', 'led', 'managed', 'developed', 'created', 'implemented', 'spearheaded', 'orchestrated', 'drove', 'innovated']
+STRONG_VERBS = ['achieved', 'led', 'managed', 'developed', 'created', 'implemented', 'spearheaded', 'orchestrated',
+                'drove', 'innovated']
+
 
 class SuggestionEvaluator:
     def __init__(self, spacy_nlp_model, genai_eval_model):
@@ -45,7 +47,8 @@ class SuggestionEvaluator:
             resume_words = set(processed_resume.split())
             missing_keywords = [kw for kw in job_keywords if kw not in resume_words]
             if missing_keywords:
-                suggestions.append(f"Consider incorporating relevant keywords from the job description, such as: {', '.join(missing_keywords[:5])}.")
+                suggestions.append(
+                    f"Consider incorporating relevant keywords from the job description, such as: {', '.join(missing_keywords[:5])}.")
 
         try:
             doc = self.nlp(resume_text)
@@ -58,14 +61,16 @@ class SuggestionEvaluator:
                         weak_verb_sentences.append(f"'{sentence_preview}' (starts with '{verb.text}')")
                         break
             if weak_verb_sentences:
-                suggestions.append(f"Review sentences starting with weaker verbs ({', '.join(weak_verb_sentences[:2])}). Try stronger action verbs like: {random.choice(STRONG_VERBS)}, {random.choice(STRONG_VERBS)}.")
+                suggestions.append(
+                    f"Review sentences starting with weaker verbs ({', '.join(weak_verb_sentences[:2])}). Try stronger action verbs like: {random.choice(STRONG_VERBS)}, {random.choice(STRONG_VERBS)}.")
         except Exception as e:
             print(f"Error analyzing action verbs: {e}")
 
         try:
             doc = self.nlp(resume_text)
             if not any(token.like_num for token in doc):
-                suggestions.append("Quantify achievements where possible. Use numbers to show impact (e.g., 'Increased sales by 15%').")
+                suggestions.append(
+                    "Quantify achievements where possible. Use numbers to show impact (e.g., 'Increased sales by 15%').")
         except Exception as e:
             print(f"Error checking for quantification: {e}")
 
