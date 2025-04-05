@@ -1,7 +1,7 @@
 import json
 import os
 import google.generativeai as genai
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 
 # Created Modules/Classes
@@ -11,9 +11,8 @@ from text_extractor import FileTextExtractor
 from Resume_categoryPredict import ResumeCategory
 from JobRecommendation import JobScraper
 
-# syntax - from "module_name" import "Class_name" [:) - written to avoid confusions]
-
 app = Flask(__name__)
+
 # ------------------------------ ( All Class Instances at one Place ) --------------------------------------------------
 ai_analysis = AIResumeEvaluator()
 analyzer = ResumeAnalyzer()
@@ -24,7 +23,6 @@ predictCategory = ResumeCategory()
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {"pdf", "docx", "txt"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # ------------------------------ ( Gemini-API Integration Logic ) ------------------------------------------------------
@@ -40,26 +38,22 @@ def allowed_file(filename):
 
 def ai_feedback(job_description, filepath):
     """ Generates AI feedback for the resume based on the job description """
-
-    # Extract text from the uploaded resume
     resume_text = extractText.extract_text(filepath)
-
-    # Generate a prompt for AI analysis
     prompt = ai_analysis.generate_prompt(job_description, resume_text)
-
     try:
-        # Generate response from the AI model
         response = model.generate_content(prompt)
-        analysis_result = response.text
-
-        # Convert the result into a dictionary and return it
-        return json.loads(analysis_result)
-
-    except Exception as e:
-        return {"error": "Failed to analyze the resume."}  # Returning error message as a dictionary
+        return json.loads(response.text)
+    except Exception:
+        return {"error": "Failed to analyze the resume."}
 
 
-# ---------------------- (All The Routes Are Here) -----------------------------------------------------------------
+# ------------------------------ (Route to Serve Uploaded Files) --------------------------------------------------
+@app.route("/uploads/<filename>")
+def uploaded_file(filename):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
+
+
+# ------------------------------ (All The Routes Are Here) ---------------------------------------------------------
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -74,14 +68,13 @@ def analyze():
         file = request.files["resume"]
         job_description = request.form.get("job_description", "").strip()
         level = request.form.get("level").strip()
+        file_name = file.filename
 
-        # print(level)
-
-        if file.filename == "":
+        if file_name == "":
             return "No selected file"
 
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+        if file and allowed_file(file_name):
+            filename = secure_filename(file_name)
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(filepath)
 
@@ -91,70 +84,67 @@ def analyze():
             # AI-Analysis
             aiFeedback = ai_feedback(job_description, filepath)
 
-            # print(aiFeedback)
-
             # Predict resume category:
             resume_text = extractText.extract_text(filepath)
             predicted_category = predictCategory.predict_category(resume_text)
 
+            # Generate resume preview URL
+            resume_url = url_for("uploaded_file", filename=filename)
 
             return redirect(
-                url_for("show_analysis_result", **results, **aiFeedback, predicated_category=predicted_category, level=level))
+                url_for("show_analysis_result",
+                        **results,
+                        **aiFeedback,
+                        predicated_category=predicted_category,
+                        level=level,
+                        file_name=filename,
+                        resume_url=resume_url)
+            )
 
     return render_template("analyzer.html", results=None)
 
 
 @app.route("/analysis-result", methods=["GET", "POST"])
 def show_analysis_result():
-    # Extracting essential details
     similarity_score = request.args.get("similarity_score", "")
     suggestions = request.args.get("suggestions", "")
-
-    # Extracting AI feedback details
     relevance_score = request.args.get("RelevanceScore", "")
     strengths = request.args.getlist("Strengths") or []
     weaknesses = request.args.getlist("Weaknesses") or []
     additional_suggestions = request.args.getlist("Suggestions") or []
     missing_keywords = request.args.getlist("MissingKeywords") or []
-
-    # Extracting grammar and writing quality details
     grammar_errors = request.args.getlist("GrammarAndWritingQuality.GrammarErrors") or []
     clarity_issues = request.args.getlist("GrammarAndWritingQuality.ClarityIssues") or []
     professional_tone = request.args.getlist("GrammarAndWritingQuality.ProfessionalTone") or []
-
-    # Extracting ATS Optimization Tips
     ats_tips = request.args.getlist("ATSOptimizationTips") or []
-
     predicted_Category = request.args.get("predicated_category", "")
     level = request.args.get("level")
+    resume_url = request.args.get("resume_url", "")
 
     get_job = JobScraper(predicted_Category, level)
     try:
         recommended_job = get_job.get_all_jobs()
     except Exception as e:
         print(f"Error occurred while fetching jobs: {e}")
-        recommended_job = []  # fallback if job fetching fails
+        recommended_job = []
 
-    # Storing all results in a dictionary
     results = {
-        # "similarity_score": similarity_score,
         "suggestions": suggestions,
-        # "relevance_score": relevance_score,
         "strengths": strengths,
         "weaknesses": weaknesses,
-        # "additional_suggestions": additional_suggestions,
         "missing_keywords": missing_keywords,
         "grammar_errors": grammar_errors,
         "clarity_issues": clarity_issues,
-        # "professional_tone": professional_tone,
         "ats_tips": ats_tips,
         "predicted_category": predicted_Category
     }
-    # for key, value in results.items():
-    #     print(f"{key}: {value}")
 
-    return render_template("analysis_results.html", results=results, jobs=recommended_job, similarity_score=similarity_score)
+    return render_template("analysis_results.html",
+                           results=results,
+                           jobs=recommended_job,
+                           similarity_score=similarity_score,
+                           resume_url=resume_url)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5002)
