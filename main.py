@@ -1,7 +1,7 @@
 import json
 import os
 import google.generativeai as genai
-from flask import Flask, request, render_template, redirect, url_for, send_from_directory
+from flask import Flask, request, render_template, redirect, url_for, send_from_directory, jsonify
 from werkzeug.utils import secure_filename
 
 # Created Modules/Classes
@@ -11,14 +11,22 @@ from text_extractor import FileTextExtractor
 from Resume_categoryPredict import ResumeCategory
 from JobRecommendation import JobScraper
 from suggestion_evaluator import SuggestionEvaluator
+from cold_email import ColdEmailGenerator
 
 app = Flask(__name__)
+
+# ------------------------------ ( Gemini-API Integration Logic ) ------------------------------------------------------
+key = os.environ.get("myGemKey")
+genai.configure(api_key=key)
+model = genai.GenerativeModel("gemini-1.5-flash", generation_config={"response_mime_type": "application/json"})
+
 
 # ------------------------------ ( All Class Instances at one Place ) --------------------------------------------------
 ai_analysis = AIResumeEvaluator()
 analyzer = ResumeAnalyzer()
 extractText = FileTextExtractor()
 predictCategory = ResumeCategory()
+get_cold_email = ColdEmailGenerator(key)
 
 suggestion_eval_model = genai.GenerativeModel("gemini-1.5-flash") # Default text response
 suggestion_evaluator = SuggestionEvaluator(spacy_nlp_model=nlp, genai_eval_model=suggestion_eval_model)
@@ -30,10 +38,6 @@ ALLOWED_EXTENSIONS = {"pdf", "docx", "txt"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ------------------------------ ( Gemini-API Integration Logic ) ------------------------------------------------------
-key = os.environ.get("myGemKey")
-genai.configure(api_key=key)
-model = genai.GenerativeModel("gemini-1.5-flash", generation_config={"response_mime_type": "application/json"})
 
 
 # ------------------------------ (Essential Functions) ---------------------------------------------------------
@@ -161,12 +165,24 @@ def show_analysis_result():
         "ats_tips": ats_tips,
         "predicted_category": predicted_Category
     }
-
     return render_template("analysis_results.html",
                            results=results,
                            jobs=recommended_job,
                            similarity_score=similarity_score,
                            resume_url=resume_url)
+
+
+@app.route('/generate_cold_email', methods=['POST'])
+def generate_cold_email():
+    data = request.get_json()
+    job_profile = data.get('job_profile', '')
+
+    cold_email = get_cold_email.generate_cold_emails(job_profile)
+
+    print(cold_email)
+
+    return jsonify({'cold_email': cold_email})
+
 
 
 if __name__ == "__main__":
