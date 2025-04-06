@@ -7,7 +7,6 @@ from werkzeug.utils import secure_filename
 # Created Modules/Classes
 from AI_Powered_Analysis import AIResumeEvaluator
 from analyzer_module import ResumeAnalyzer, nlp
-from testing import suggestion_eval_model
 from text_extractor import FileTextExtractor
 from Resume_categoryPredict import ResumeCategory
 from JobRecommendation import JobScraper
@@ -20,6 +19,8 @@ ai_analysis = AIResumeEvaluator()
 analyzer = ResumeAnalyzer()
 extractText = FileTextExtractor()
 predictCategory = ResumeCategory()
+
+suggestion_eval_model = genai.GenerativeModel("gemini-1.5-flash") # Default text response
 suggestion_evaluator = SuggestionEvaluator(spacy_nlp_model=nlp, genai_eval_model=suggestion_eval_model)
 
 
