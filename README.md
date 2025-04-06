@@ -65,6 +65,11 @@ The Smart Resume Analyzer is a Python-based tool designed to help job applicants
 
 ## Team
 
+<p align="left">
+  <img src="PHOTO-2025-04-06-06-32-46.jpg" alt="Team Photo"/>
+</p>
+
+
 Arvinder Singh Dhoul
 
 * Email: asdhoul004@gmail.com
