@@ -1,18 +1,14 @@
 import os
-import re
+
 import nltk
+import pdfplumber
 import spacy
-import pandas as pd
+from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from sentence_transformers import SentenceTransformer
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+
 # import textractparser as textract
 # import textract  # For handling various document formats
-
-import pdfplumber
 
 
 # Download required NLTK resources (only needed once)

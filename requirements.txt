@@ -1,12 +1,14 @@
+Flask
 nltk
 spacy
 pandas
 scikit-learn
 sentence-transformers
-flask
 requests
 beautifulsoup4
 selenium
 webdriver-manager
 lxml
-gunicorn
+PyPDF2
+docx2txt
+pdfplumber

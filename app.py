@@ -1,17 +1,19 @@
 import os
-import pymongo
-from pymongo import MongoClient 
-from pymongo.errors import ConnectionFailure
 from dotenv import load_dotenv
-from flask import (Flask, render_template, request, redirect, url_for, flash, session)
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask_pymongo import PyMongo
 from flask_bcrypt import Bcrypt
-from flask_login import (LoginManager, UserMixin, login_user, logout_user, login_required, current_user)
+from flask_login import (LoginManager, UserMixin, login_user,logout_user, login_required, current_user)
 from bson.objectid import ObjectId
+
 load_dotenv()
 app = Flask(__name__)
 
 secret_key = app.config["SECRET_KEY"]
 mongo_uri = app.config["MONGO_URI"]
+
+app.config["SECRET_KEY"] = secret_key
+app.config["MONGO_URI"] = mongo_uri
 
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)

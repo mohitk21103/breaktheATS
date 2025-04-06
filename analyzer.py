@@ -1,12 +1,9 @@
-import os
-import re
 import nltk
-import spacy
 import pdfplumber
-import pandas as pd
+import spacy
+from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from sentence_transformers import SentenceTransformer
 
 # Download necessary NLTK resources
 nltk.download('punkt', quiet=True)

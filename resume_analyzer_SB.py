@@ -1,17 +1,11 @@
 import os
-import re
+
 import nltk
+import pdfplumber
 import spacy
-import pandas as pd
+from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from sentence_transformers import SentenceTransformer
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-
-import pdfplumber
-
 
 nltk.download('punkt', quiet=True)
 nltk.download('stopwords', quiet=True)
