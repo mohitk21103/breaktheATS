@@ -182,8 +182,6 @@ def generate_cold_email():
 
     cold_email = get_cold_email.generate_cold_emails(job_profile)
 
-    print(cold_email)
-
     return jsonify({'cold_email': cold_email})
 
 

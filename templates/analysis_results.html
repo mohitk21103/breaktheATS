@@ -262,7 +262,7 @@
         <h2>Analysis</h2>
         <div id="resume_similarity_score" class="score-container">
         <div class="circle-progress">
-            <span>{{ similarity_score }} %</span>
+            <span>{{ similarity_score }}%</span>
         </div>
         <p class="score-description">The Similarity Score indicates how well your resume matches the job description.</p>
         </div>
@@ -275,7 +275,6 @@
             {% endfor %}
             <li onclick="showSection('grammar_writing_quality')">Grammar & Writing Quality</li>
             <li onclick="showSection('job_recommendation')">Job Recommendation</li>
-            <li onclick="showSection('skill_enhancement_courses_videos')">Skill Enhancement</li>
             <li onclick="showSection('cold_email_section')">Cold Email</li>
         </ul>
     </div>
@@ -383,39 +382,38 @@
             }
         }
 
-document.getElementById('cold_email_form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const jobRole = document.getElementById('job_profile').value;
+        document.getElementById('cold_email_form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const jobRole = document.getElementById('job_profile').value;
 
-    const response = await fetch('/generate_cold_email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ job_profile: jobRole })
-    });
+            const response = await fetch('/generate_cold_email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ job_profile: jobRole })
+            });
 
-    const data = await response.json();
-    const outputDiv = document.getElementById('cold_email_output');
-    const container = document.getElementById('email_templates_container');
+            const data = await response.json();
+            const outputDiv = document.getElementById('cold_email_output');
+            const container = document.getElementById('email_templates_container');
 
-    if (data.cold_email) {
-        outputDiv.style.display = 'block';
-        container.innerHTML = '';
+            if (data.cold_email) {
+                outputDiv.style.display = 'block';
+                container.innerHTML = '';
 
-        data.cold_email.forEach((email, index) => {
-            const templateBox = document.createElement('div');
-            templateBox.innerHTML = `
-                <div style="background: #f9f9f9; padding: 15px 20px; margin: 20px 0; border-left: 5px solid #007BFF; font-size: 1.05rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-                    <strong>Template ${index + 1}</strong><br><br>
-                    ${email.replace(/\n/g, "<br>")}
-                </div>
-            `;
-            container.appendChild(templateBox);
+                data.cold_email.forEach((email, index) => {
+                    const templateBox = document.createElement('div');
+                    templateBox.innerHTML = `
+                        <div style="background: #f9f9f9; padding: 15px 20px; margin: 20px 0; border-left: 5px solid #007BFF; font-size: 1.05rem; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                            <strong>Template ${index + 1}</strong><br><br>
+                            ${email.replace(/\n/g, "<br>")}
+                        </div>
+                    `;
+                    container.appendChild(templateBox);
+                });
+            } else {
+                container.innerHTML = "<p style='color:red;'>Error generating templates. Please try again.</p>";
+            }
         });
-    } else {
-        container.innerHTML = "<p style='color:red;'>Error generating templates. Please try again.</p>";
-    }
-});
-
     </script>
 
 </body>
