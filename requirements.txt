@@ -12,3 +12,6 @@ lxml
 PyPDF2
 docx2txt
 pdfplumber
+google-generativeai
+gunicorn
+python-dotenv

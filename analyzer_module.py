@@ -1,23 +1,32 @@
 import nltk
 import pdfplumber
 import spacy
+import sys
+import subprocess
 from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Download necessary NLTK resources
-nltk.download('punkt', quiet=True)
-nltk.download('stopwords', quiet=True)
-nltk.download('wordnet', quiet=True)
-nltk.download('averaged_perceptron_tagger', quiet=True)
+# Download NLTK data if missing
+nltk_data = ['punkt', 'stopwords', 'wordnet', 'averaged_perceptron_tagger']
+for package in nltk_data:
+    try:
+        path = f'tokenizers/{package}' if package == 'punkt' else f'corpora/{package}'
+        nltk.data.find(path)
+    except LookupError:
+        nltk.download(package, quiet=True)
 
-# Load spaCy model
-nlp = spacy.load("en_core_web_sm")
-
+# Load or download spaCy model
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    subprocess.run([sys.executable, "-m", "spacy", "download", "en_core_web_sm"])
+    nlp = spacy.load("en_core_web_sm")
 
 class ResumeAnalyzer:
     def __init__(self):
         self.model = SentenceTransformer('all-mpnet-base-v2')
+
 
     def parse_resume(self, file_path):
         """Parses a resume file (PDF) and returns its text content."""

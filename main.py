@@ -12,6 +12,9 @@ from Resume_categoryPredict import ResumeCategory
 from JobRecommendation import JobScraper
 from suggestion_evaluator import SuggestionEvaluator
 from cold_email import ColdEmailGenerator
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
